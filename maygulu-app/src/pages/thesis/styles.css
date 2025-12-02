@@ -1,0 +1,103 @@
+/* Thesis page layout */
+.thesis-page { min-height: 100vh; background: #f8fafc; color: #111827; display: flex; flex-direction: column; }
+
+/* Top bar */
+.thesis-nav { height: 56px; display: flex; align-items: center; gap: 12px; padding: 0 16px; border-bottom: 1px solid #e5e7eb; background: #ffffff; position: sticky; top: 0; z-index: 30; }
+.thesis-back { padding: 8px 12px; border-radius: 10px; border: 1px solid #e5e7eb; background: #fff; cursor: pointer; }
+.thesis-back:hover { background: #f3f4f6; }
+.thesis-title { font-size: 18px; font-weight: 800; margin: 0; }
+
+/* Container */
+.thesis-container { width: min(1000px, 100%); margin: 20px auto; padding: 0 16px; }
+
+/* Grid */
+.thesis-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+@media (max-width: 1200px) {
+  .thesis-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+  .thesis-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .thesis-grid { grid-template-columns: 1fr; }
+}
+
+/* Detail layout - single column */
+.thesis-detail { display: block; }
+.thesis-detail__title { margin: 0 0 8px 0; font-size: 24px; font-weight: 800; color: #111827; overflow: visible; display: block; white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
+/* Açıklama sınırsız büyüyebilsin: max-height yok, overflow auto yok */
+.thesis-detail__abstract { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 14px; color: #374151; line-height: 1.7; margin: 8px 0 12px 0; overflow: visible; display: block; white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
+.thesis-detail__meta--plain { display: grid; grid-template-columns: 1fr; gap: 6px; margin: 8px 0 16px 0; color: #374151; }
+.thesis-detail__meta--plain > div { font-size: 14px; }
+
+
+/* Files */
+.thesis-files { display: flex; flex-direction: column; gap: 10px; }
+.file-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px; }
+.file-item__info { min-width: 0; }
+.file-item__name { font-weight: 600; color: #111827; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.file-item__type { font-size: 12px; color: #6b7280; }
+.file-item__actions { display: flex; gap: 8px; }
+
+/* Preview */
+.thesis-preview { margin-top: 16px; background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 8px; }
+.thesis-preview iframe { width: 100%; height: 70vh; border: 0; border-radius: 8px; }
+@media (max-width: 900px) { .thesis-preview iframe { height: 55vh; } }
+
+/* List hero */
+.thesis-hero-wrap { background: transparent; }
+.thesis-hero { width: min(1000px, 100%); margin: 12px auto; padding: 14px 16px; background: #2563eb; color: #ffffff; border-radius: 12px; font-size: 20px; font-weight: 800; box-shadow: 0 6px 18px rgba(37,99,235,0.22); }
+@media (max-width: 560px) { .thesis-hero { font-size: 18px; padding: 12px; } }
+
+/* Card */
+.thesis-card { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 10px; transition: box-shadow .2s ease, transform .05s ease; color: inherit; height: 260px !important; min-height: 260px; max-height: 260px; overflow: hidden; }
+.thesis-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.06); transform: translateY(-1px); }
+.thesis-card__title { margin: 0; font-size: 18px; font-weight: 800; color: #111827; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
+.thesis-card__abstract { margin: 0; color: #374151; font-size: 14px; line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
+.thesis-card__meta { margin-top: auto; display: flex; flex-wrap: wrap; gap: 10px; color: #4b5563; font-size: 12px; }
+.thesis-card__meta-item strong { color: #111827; }
+
+/* Daha güçlü özgüllük: grid içindeki kartlar da sabit kalsın */
+.thesis-grid .thesis-card { height: 260px !important; min-height: 260px; max-height: 260px; }
+
+@media (max-width: 560px) {
+  .thesis-card { height: 220px !important; min-height: 220px; max-height: 220px; }
+  .thesis-grid .thesis-card { height: 220px !important; min-height: 220px; max-height: 220px; }
+}
+
+/* Reset link look for card-as-link */
+.thesis-card:link, .thesis-card:visited { text-decoration: none; color: inherit; }
+
+/* Alerts / info */
+.thesis-alert { padding: 12px; border-radius: 10px; margin-bottom: 12px; border: 1px solid transparent; }
+.thesis-alert--error { background: #fef2f2; color: #991b1b; border-color: #fecaca; }
+.thesis-info { color: #6b7280; font-size: 14px; padding: 8px 0; }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; border-radius: 10px; font-weight: 600; }
+.btn.btn-primary { background: #2563eb; color: #fff; border: 1px solid #1d4ed8; padding: 8px 12px; }
+.btn.btn-primary:hover { background: #1d4ed8; }
+.btn.btn-link { background: transparent; border: none; color: #2563eb; padding: 6px 8px; }
+.btn.btn-link:hover { text-decoration: underline; }
+
+/* Filters */
+.thesis-filters { background: #ffffff; }
+.thesis-filters__grid {
+  display: flex;
+  gap: 6px;
+  align-items: end;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+.thesis-filters .admin-label { min-width: 150px; }
+.thesis-filters .admin-label .admin-input[type="number"] { width: 120px; }
+.thesis-filters__actions { margin-left: auto; display: flex; align-items: end; flex: 0 0 auto; }
+
+@media (max-width: 900px) {
+  .thesis-filters__grid { flex-wrap: wrap; }
+}
+
+.thesis-search { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 10px 12px; }
+.thesis-search .thesis-filters__grid { gap: 8px; align-items: center; }
+.thesis-search .admin-label { min-width: 260px; flex: 1 1 320px; }
+.thesis-search .search-input { height: 36px; }
