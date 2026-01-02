@@ -1,0 +1,111 @@
+/* Minimal reset + variables */
+:root {
+  --color-bg: #f8fafc;
+  --color-text: #111827;
+  --color-border: #e5e7eb;
+  --color-primary: #2563eb;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-secondary-hover: #f1f5f9;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-secondary-hover: #374151;
+  --border-color: #e5e7eb;
+  --color-border-hover: #cbd5e1;
+  --shadow-primary: rgba(0, 0, 0, 0.12);
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --content-max: 1000px;
+  --sidebar-pad: 0;
+  --bp-sm: 560px;
+  --bp-md: 900px;
+  --bp-lg: 1200px;
+}
+
+html.dark {
+  --color-bg: #0b1220;
+  --color-text: #e5e7eb;
+  --color-border: #2b3a55;
+  --bg-primary: #111827;
+  --bg-secondary: #0b1220;
+  --bg-secondary-hover: #121a2b;
+  --text-primary: #e5e7eb;
+  --text-secondary: #a8b3c3;
+  --text-secondary-hover: #cbd5e1;
+  --border-color: #2b3a55;
+  --color-border-hover: #3a4f73;
+  --shadow-primary: rgba(0, 0, 0, 0.35);
+  --color-primary: #7aa2f7;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Layout: make the footer sit at the bottom when content is short */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-content {
+  flex: 1 0 auto;
+}
+
+/* Simple container helper */
+.container {
+  width: min(var(--content-max), 100%);
+  margin: 0 auto;
+  padding-inline: var(--space-4);
+}
+
+/* Media defaults */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.site-footer {
+  margin-top: auto;
+  width: 100%;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-size: 14px;
+  padding: 12px 16px;
+  text-align: center;
+  border-top: 1px solid var(--color-border);
+}
