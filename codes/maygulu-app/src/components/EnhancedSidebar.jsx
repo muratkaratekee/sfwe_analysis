@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BookOpen, FileText, Upload, Users, Building2, LogOut, Star, LayoutDashboard } from 'lucide-react';
+import { BookOpen, FileText, Upload, Users, Building2, LogOut, Star, LayoutDashboard, X } from 'lucide-react';
 
-const EnhancedSidebar = ({ user, isOpen, collapsed = false, onToggle, onLogout }) => {
+const EnhancedSidebar = ({ user, isOpen, collapsed = false, onToggle, onLogout, isMobile = false, onClose }) => {
   const location = useLocation();
   const role = Number(user?.role_id);
   const isAdmin = role === 3;
@@ -62,23 +62,45 @@ const EnhancedSidebar = ({ user, isOpen, collapsed = false, onToggle, onLogout }
 
   return (
     <aside
-      className={`enhanced-sidebar${collapsed ? ' enhanced-sidebar--collapsed' : ''}`}
+      className={`enhanced-sidebar${collapsed ? ' enhanced-sidebar--collapsed' : ''}${isMobile ? ' enhanced-sidebar--mobile' : ''}`}
       style={{
         position: 'fixed',
         top: 0,
-        left: 0,
+        left: isMobile ? (isOpen ? 0 : '-280px') : 0,
         height: '100vh',
-        width: collapsed ? '80px' : '240px',
+        width: isMobile ? '280px' : (collapsed ? '80px' : '240px'),
         background: 'var(--bg-primary)',
         color: 'var(--text-primary)',
         boxShadow: '2px 0 8px rgba(0,0,0,0.12)',
-        zIndex: 1000,
+        zIndex: 1001,
         display: 'flex',
         flexDirection: 'column',
-        transition: 'width 240ms ease',
+        transition: isMobile ? 'left 300ms ease' : 'width 240ms ease',
         overflow: 'hidden',
       }}
     >
+      {/* Mobile close button */}
+      {isMobile && (
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: '12px',
+            right: '12px',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '8px',
+            borderRadius: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 10
+          }}
+        >
+          <X size={24} color="var(--text-primary)" />
+        </button>
+      )}
       <div style={{
         display: 'flex',
         alignItems: 'center',
@@ -181,13 +203,26 @@ const EnhancedSidebar = ({ user, isOpen, collapsed = false, onToggle, onLogout }
           textAlign: 'center'
         }}>
           {!collapsed && (
-            <div style={{
-              fontSize: '13px',
-              color: 'var(--text-secondary)',
-              marginBottom: '12px'
-            }}>
-              {role === 3 ? 'Admin' : role === 2 ? 'Supervisor' : role === 1 ? 'Student' : 'Other'}
-            </div>
+            <>
+              {/* User name - show on mobile */}
+              {isMobile && user?.full_name && (
+                <div style={{
+                  fontSize: '15px',
+                  fontWeight: 600,
+                  color: 'var(--text-primary)',
+                  marginBottom: '4px'
+                }}>
+                  {user.full_name}
+                </div>
+              )}
+              <div style={{
+                fontSize: '13px',
+                color: 'var(--text-secondary)',
+                marginBottom: '12px'
+              }}>
+                {role === 3 ? 'Admin' : role === 2 ? 'Supervisor' : role === 1 ? 'Student' : 'Other'}
+              </div>
+            </>
           )}
           <button
             onClick={onLogout}

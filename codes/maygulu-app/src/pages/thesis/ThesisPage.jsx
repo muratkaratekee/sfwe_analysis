@@ -7,7 +7,7 @@ import { getAdvisors, getFaculties, getDepartmentsByFaculty } from '../../api/lo
 import { getFavorites } from '../../api/favorites';
 import ThesisDetail from './ThesisDetail.jsx';
 import { Navbar, ThesisList } from '../../components';
-import { Grid, List } from 'lucide-react';
+import { Grid, List, X } from 'lucide-react';
 
 export default function ThesisPage({ user, onLogout }) {
   const params = useParams();
@@ -44,45 +44,30 @@ export default function ThesisPage({ user, onLogout }) {
   const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [favoriteIds, setFavoriteIds] = useState(new Set());
   const [viewMode, setViewMode] = useState('list'); // 'list' or 'grid'
+  const [filterPanelOpen, setFilterPanelOpen] = useState(false);
 
-  // Sidebar footer'a ulaştığında sabit kalmayı bıraksın
-  const sidebarRef = useRef(null);
   const footerRef = useRef(null);
-  const [sidebarStyle, setSidebarStyle] = useState({});
+  const filterRef = useRef(null);
+  const [filterBottom, setFilterBottom] = useState(20);
 
+  // Filter panel scroll handling - stop at footer
   useEffect(() => {
     const handleScroll = () => {
-      if (!sidebarRef.current || !footerRef.current) return;
-      
-      const footer = footerRef.current;
-      const footerRect = footer.getBoundingClientRect();
-      const sidebarHeight = sidebarRef.current.offsetHeight;
+      if (!footerRef.current || !filterRef.current) return;
+      const footerRect = footerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       
-      // Sidebar'ın alt kenarı footer'ın üst kenarına değdiğinde dur
-      const sidebarBottom = 70 + sidebarHeight; // top: 70px + sidebar yüksekliği
-      const spaceNeeded = windowHeight - sidebarBottom;
-      
+      // If footer is visible, adjust filter panel bottom
       if (footerRect.top < windowHeight) {
-        // Footer görünür, sidebar'ı footer'ın hemen üstünde tut
         const newBottom = windowHeight - footerRect.top + 20;
-        setSidebarStyle({ 
-          position: 'fixed',
-          top: 'auto',
-          bottom: `${newBottom}px`
-        });
+        setFilterBottom(newBottom);
       } else {
-        // Footer görünür değil, normal fixed pozisyon
-        setSidebarStyle({ 
-          position: 'fixed',
-          top: '70px',
-          bottom: '20px'
-        });
+        setFilterBottom(20);
       }
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // İlk yüklemede kontrol et
+    handleScroll(); // Initial check
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -192,7 +177,7 @@ export default function ThesisPage({ user, onLogout }) {
 
   return (
     <div className="thesis-page" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Navbar user={user} onLogout={onLogout} />
+      <Navbar user={user} onLogout={onLogout} onFilterToggle={() => setFilterPanelOpen(v => !v)} showFilterButton={!thesisId} />
 
       <div style={{ flex: '1', minHeight: 'calc(100vh - 56px)' }}>
         {!thesisId && (
@@ -212,23 +197,25 @@ export default function ThesisPage({ user, onLogout }) {
                   <div className="thesis-info">No theses yet.</div>
                 ) : (
                   <>
-                    <div className="view-toggle">
-                      <button
-                        className={`view-toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
-                        onClick={() => setViewMode('list')}
-                        title="List view"
-                      >
-                        <List size={18} />
-                        List
-                      </button>
-                      <button
-                        className={`view-toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
-                        onClick={() => setViewMode('grid')}
-                        title="Grid view"
-                      >
-                        <Grid size={18} />
-                        Grid
-                      </button>
+                    <div className="view-toggle-container">
+                      <div className="view-toggle">
+                        <button
+                          className={`view-toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
+                          onClick={() => setViewMode('list')}
+                          title="List view"
+                        >
+                          <List size={18} />
+                          <span className="view-toggle-label">List</span>
+                        </button>
+                        <button
+                          className={`view-toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
+                          onClick={() => setViewMode('grid')}
+                          title="Grid view"
+                        >
+                          <Grid size={18} />
+                          <span className="view-toggle-label">Grid</span>
+                        </button>
+                      </div>
                     </div>
                     <ThesisList items={paginatedItems} viewMode={viewMode} user={user} />
                     <div className="pagination-bar">
@@ -272,7 +259,26 @@ export default function ThesisPage({ user, onLogout }) {
               )}
             </main>
 
-            <aside className="thesis-sidebar-filters" ref={sidebarRef} style={sidebarStyle}>
+            {/* Filter panel overlay */}
+            {filterPanelOpen && (
+              <div 
+                className="filter-panel-overlay"
+                onClick={() => setFilterPanelOpen(false)}
+              />
+            )}
+
+            <aside 
+              ref={filterRef}
+              className={`thesis-sidebar-filters slide-panel ${filterPanelOpen ? 'open' : ''}`}
+              style={{ bottom: `${filterBottom}px` }}
+            >
+              {/* Close button */}
+              <button
+                className="filter-panel-close"
+                onClick={() => setFilterPanelOpen(false)}
+              >
+                <X size={24} />
+              </button>
               <div className="filter-card">
                 <h3 className="filter-title">Filters</h3>
 
@@ -372,9 +378,17 @@ export default function ThesisPage({ user, onLogout }) {
                     const next = new URLSearchParams(searchParams);
                     next.delete('favorites');
                     setSearchParams(next, { replace: true });
+                    setFilterPanelOpen(false);
                   }}
                 >
                   Clear filters
+                </button>
+                <button
+                  type="button"
+                  className="filter-apply-btn"
+                  onClick={() => setFilterPanelOpen(false)}
+                >
+                  Apply Filters
                 </button>
               </div>
             </aside>

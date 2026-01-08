@@ -299,3 +299,242 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Hide navbar filter button on desktop (>500px) */
+.navbar-filter-btn {
+  display: none !important;
+}
+
+/* Mobile styles for 500px and below */
+@media (max-width: 500px) {
+  /* Login button - smaller for mobile */
+  .home-login-btn {
+    padding: 8px 14px !important;
+    font-size: 12px !important;
+    top: 10px !important;
+    right: 10px !important;
+  }
+
+  /* Welcome container - stack vertically */
+  .welcome-container {
+    flex-direction: column !important;
+    min-height: auto !important;
+    gap: 20px !important;
+    padding: 10px !important;
+  }
+
+  /* Left section - text and logo */
+  .welcome-container > div:first-child {
+    padding: 20px 10px !important;
+    align-items: center !important;
+  }
+
+  /* Logo size */
+  .welcome-container > div:first-child img {
+    width: 120px !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  /* Title text */
+  .welcome-container > div:first-child h2 {
+    font-size: 1.3rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* Description text */
+  .welcome-container > div:first-child p {
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+    text-align: center !important;
+  }
+
+  /* Right section - 3 images */
+  .welcome-container > div:last-child {
+    justify-content: center !important;
+    gap: 8px !important;
+    padding-top: 10px !important;
+  }
+
+  /* Image boxes */
+  .welcome-container > div:last-child > div {
+    width: 100px !important;
+    height: 200px !important;
+  }
+
+  /* Middle image offset */
+  .welcome-container > div:last-child > div:nth-child(2) {
+    margin-top: 30px !important;
+  }
+
+  /* Welcome section text */
+  .home-intro {
+    padding: 10px !important;
+  }
+
+  .home-intro__title {
+    font-size: 1.2rem !important;
+  }
+
+  .home-intro p {
+    font-size: 0.9rem !important;
+  }
+
+  /* Welcome section - second section */
+  .welcome-section {
+    padding: 30px 15px 20px 15px !important;
+  }
+
+  .welcome-section-inner {
+    padding: 15px !important;
+  }
+
+  .welcome-section-title {
+    font-size: 1.2rem !important;
+    margin-bottom: 0.8rem !important;
+  }
+
+  .welcome-section p {
+    font-size: 0.85rem !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Feature cards - single column */
+  .feature-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+    padding: 10px !important;
+  }
+
+  .feature-card {
+    padding: 20px !important;
+  }
+
+  .feature-card h3 {
+    font-size: 16px !important;
+  }
+
+  .feature-card p {
+    font-size: 13px !important;
+  }
+
+  /* Footer - single column */
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    padding: 20px 15px !important;
+  }
+
+  .footer-grid > div {
+    margin-left: 0 !important;
+  }
+
+  .footer-grid h3,
+  .footer-grid h4 {
+    font-size: 14px !important;
+  }
+
+  .footer-grid p,
+  .footer-grid div {
+    font-size: 12px !important;
+  }
+
+  /* Footer margin */
+  footer {
+    margin-top: 80px !important;
+  }
+
+  /* Admin Dashboard mobile styles */
+  .home-hero-wrap {
+    padding-top: 20px !important;
+  }
+
+  /* Admin stats grid - single column on mobile */
+  .admin-stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+    padding: 0 15px !important;
+    max-width: 100% !important;
+  }
+
+  /* Advisor stats grid - single column on mobile */
+  .advisor-stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    padding: 0 15px !important;
+    max-width: 100% !important;
+  }
+
+  .advisor-stats-grid .stat-card {
+    padding: 25px 20px !important;
+  }
+
+  .advisor-stats-grid .stat-card__title {
+    font-size: 14px !important;
+  }
+
+  .advisor-stats-grid .stat-card__value {
+    font-size: 36px !important;
+  }
+
+  .stat-card {
+    min-width: auto !important;
+    padding: 20px 15px !important;
+    min-height: 90px !important;
+  }
+
+  .stat-card__title {
+    font-size: 0.85rem !important;
+  }
+
+  .stat-card__value {
+    font-size: 1.5rem !important;
+  }
+
+  /* Dashboard grid - single column */
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+    padding: 15px !important;
+    gap: 15px !important;
+  }
+
+  .dashboard-card {
+    padding: 12px !important;
+  }
+
+  .dashboard-card__title {
+    font-size: 14px !important;
+  }
+
+  .dashboard-chart {
+    height: 250px !important;
+  }
+
+  /* Advisor dashboard title */
+  .home-page section > h2 {
+    font-size: 1.4rem !important;
+    margin-bottom: 25px !important;
+    padding: 0 15px !important;
+  }
+
+  /* Student welcome section */
+  .home-intro .welcome-container {
+    grid-template-columns: 1fr !important;
+  }
+
+  .home-intro__content {
+    padding: 1rem !important;
+  }
+
+  .home-intro__title {
+    font-size: 1.2rem !important;
+  }
+
+  .home-intro p {
+    font-size: 0.9rem !important;
+  }
+
+  /* Show navbar filter button on mobile */
+  .navbar-filter-btn {
+    display: flex !important;
+  }
+}

@@ -5,6 +5,7 @@ import { ArrowLeft } from 'lucide-react';
 import { API_BASE, getJson, postJson } from '../../api/client';
 import './styles.css';
 import '../dashboard/home.css';
+import ThemeToggle from '../../components/ThemeToggle';
 
 export default function LoginRegisterPage({ onLoggedIn = () => { } }) {
   // Türkçe: Sayfa modu (login / register)
@@ -158,6 +159,16 @@ export default function LoginRegisterPage({ onLoggedIn = () => { } }) {
       >
         <ArrowLeft size={20} />
       </Link>
+
+      {/* Theme Toggle - Sağ üst köşe, HomePage ile aynı yükseklik */}
+      <div style={{
+        position: 'fixed',
+        top: '20px',
+        right: '20px',
+        zIndex: 1001
+      }}>
+        <ThemeToggle />
+      </div>
 
       {/* Sol taraf - Fotoğraf (sabit) */}
       <div style={{

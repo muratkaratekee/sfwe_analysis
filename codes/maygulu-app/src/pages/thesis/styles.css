@@ -626,11 +626,11 @@
 
 .thesis-card__favorite:hover {
   background: transparent;
-  color: #f59e0b;
+  color: var(--text-primary);
 }
 
 .thesis-card__favorite.is-favorited {
-  color: #f59e0b;
+  color: var(--text-primary);
 }
 
 /* List modunda kart boyutu stabil olsun */
@@ -910,7 +910,8 @@
   width: 100%;
 }
 
-.thesis-sidebar-filters {
+/* Desktop: Fixed sidebar filter (>500px) */
+.thesis-sidebar-filters.slide-panel {
   width: 200px;
   flex-shrink: 0;
   display: flex;
@@ -923,6 +924,23 @@
   padding-right: 16px;
   overflow-y: auto;
   z-index: 100;
+  background: transparent;
+  box-shadow: none;
+  transition: none;
+}
+
+/* Hide close button and apply button on desktop */
+.filter-panel-close {
+  display: none;
+}
+
+.filter-apply-btn {
+  display: none;
+}
+
+/* Hide overlay on desktop */
+.filter-panel-overlay {
+  display: none;
 }
 
 .filter-card {
@@ -976,6 +994,41 @@
   font-size: 13px;
   font-weight: 500;
   color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.filter-checkbox input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--bg-primary);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.filter-checkbox input[type="checkbox"]:checked {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.filter-checkbox input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 5px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.filter-checkbox input[type="checkbox"]:hover {
+  border-color: #2563eb;
 }
 
 .filter-hint {
@@ -1043,5 +1096,272 @@
     flex-direction: column;
     gap: 4px;
     text-align: center;
+  }
+}
+
+/* Mobile styles for 500px and below */
+@media (max-width: 500px) {
+  /* Page header */
+  .page-header {
+    margin: 15px 15px 0 15px;
+    margin-right: 15px;
+  }
+
+  .page-title {
+    font-size: 20px;
+  }
+
+  /* Thesis layout */
+  .thesis-layout {
+    margin: 15px;
+    margin-right: 15px;
+  }
+
+  /* View toggle container */
+  .view-toggle-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .view-toggle {
+    margin-bottom: 0;
+  }
+
+  .view-toggle-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .view-toggle-label {
+    display: none;
+  }
+
+  /* Mobile: Show filter panel overlay */
+  .filter-panel-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+  }
+
+  /* Mobile: Slide-in filter sidebar */
+  .thesis-sidebar-filters.slide-panel {
+    position: fixed;
+    top: 0;
+    right: -85vw;
+    bottom: 0;
+    width: 80vw;
+    max-width: 300px;
+    height: 100vh;
+    background: var(--bg-primary);
+    z-index: 1000;
+    padding: 50px 16px 20px 16px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: right 300ms ease;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+  }
+
+  .thesis-sidebar-filters.slide-panel.open {
+    right: 0;
+  }
+
+  /* Mobile: Show close button */
+  .filter-panel-close {
+    display: flex;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+  }
+
+  .filter-panel-close:hover {
+    background: var(--bg-secondary);
+  }
+
+  /* Filter card mobile */
+  .filter-card {
+    margin-top: 0;
+    padding: 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .filter-label {
+    font-size: 13px;
+    width: 100%;
+  }
+
+  .filter-label .admin-input {
+    font-size: 13px;
+    padding: 8px 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .filter-checkbox {
+    font-size: 13px;
+  }
+
+  .filter-checkbox-row {
+    width: 100%;
+  }
+
+  .filter-title {
+    font-size: 14px;
+  }
+
+  .filter-clear-btn {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Mobile: Show apply filters button */
+  .filter-apply-btn {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .filter-apply-btn:active {
+    background: #1d4ed8;
+  }
+
+  /* Thesis cards mobile */
+  .thesis-list .thesis-card {
+    height: auto;
+    min-height: 120px;
+    max-height: none;
+    padding: 12px;
+  }
+
+  .thesis-list .thesis-card__title {
+    font-size: 15px;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    max-height: 4em;
+  }
+
+  .thesis-card__meta {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .thesis-card__meta-left,
+  .thesis-card__meta-right {
+    flex-wrap: wrap;
+  }
+
+  .thesis-card__meta-item strong {
+    max-width: 100px;
+  }
+
+  /* Thesis Detail metadata mobile */
+  .thesis-meta-table-desktop {
+    display: block;
+  }
+
+  .thesis-meta-table-desktop tbody {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .thesis-meta-table-desktop tr {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .thesis-meta-table-desktop td {
+    display: block;
+    width: 50% !important;
+    box-sizing: border-box;
+    padding: 6px 8px !important;
+    font-size: 12px !important;
+  }
+
+  .thesis-meta-table-desktop td:nth-child(odd) {
+    width: 35% !important;
+  }
+
+  .thesis-meta-table-desktop td:nth-child(even) {
+    width: 65% !important;
+  }
+
+  /* Grid view mobile */
+  .thesis-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .thesis-card--grid {
+    min-height: 300px;
+    aspect-ratio: auto;
+  }
+
+  /* Pagination mobile */
+  .pagination {
+    margin-left: 0;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .pagination-btn {
+    min-width: 36px;
+    height: 36px;
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .pagination-bar {
+    padding: 12px 0;
+  }
+
+  /* Footer mobile */
+  footer > div:first-child {
+    grid-template-columns: 1fr !important;
+    padding: 20px 15px !important;
+    gap: 20px !important;
+  }
+
+  footer > div:first-child > div {
+    margin-left: 0 !important;
+  }
+
+  footer h3 {
+    font-size: 16px !important;
+  }
+
+  footer h4 {
+    font-size: 13px !important;
+  }
+
+  footer p,
+  footer div {
+    font-size: 12px !important;
+  }
+
+  footer {
+    margin-top: 80px !important;
   }
 }

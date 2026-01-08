@@ -30,6 +30,7 @@ export default function ThesisDetail({ thesisId, user }) {
   const [citTypeSeries, setCitTypeSeries] = useState([]);
   const [impact, setImpact] = useState(null);
   const [showCitePopup, setShowCitePopup] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const navigate = useNavigate();
 
@@ -155,9 +156,9 @@ export default function ThesisDetail({ thesisId, user }) {
     return (
       <div key={node.id} style={{ marginTop: isReply ? 8 : 12 }}>
         <div style={{
-          background: '#fff',
-          border: '1px solid #e5e7eb',
-          borderLeft: isReply ? '3px solid #9ca3af' : '1px solid #e5e7eb',
+          background: 'var(--bg-primary)',
+          border: '1px solid var(--color-border)',
+          borderLeft: isReply ? '3px solid var(--text-secondary)' : '1px solid var(--color-border)',
           borderRadius: isReply ? '0 8px 8px 0' : 8,
           padding: 12,
           marginLeft: isReply ? (depth * 20) : 0
@@ -180,16 +181,16 @@ export default function ThesisDetail({ thesisId, user }) {
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <strong style={{ fontSize: 14, color: '#111827' }}>
+                <strong style={{ fontSize: 14, color: 'var(--text-primary)' }}>
                   {node.user_full_name || 'User ' + node.user_id}
                 </strong>
                 {typeof node.user_role_id !== 'undefined' && (
-                  <span style={{ fontSize: 11, padding: '2px 6px', borderRadius: 4, background: '#f3f4f6', color: '#6b7280' }}>
+                  <span style={{ fontSize: 11, padding: '2px 6px', borderRadius: 4, background: 'var(--bg-secondary)', color: 'var(--text-secondary)' }}>
                     {ROLE_LABEL?.[node.user_role_id] ?? `Role ${node.user_role_id}`}
                   </span>
                 )}
               </div>
-              <span style={{ fontSize: 12, color: '#9ca3af' }}>{new Date(node.created_at).toLocaleString()}</span>
+              <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>{new Date(node.created_at).toLocaleString()}</span>
             </div>
             {(Number(user?.role_id) === 3 || (Number(user?.role_id) === 2 && Number(node.user_id) === Number(user?.id))) && (
               <button style={{ background: 'transparent', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: 12 }}
@@ -198,15 +199,15 @@ export default function ThesisDetail({ thesisId, user }) {
           </div>
 
           {/* Content */}
-          <div style={{ fontSize: 14, color: '#374151', lineHeight: 1.5, marginBottom: 8 }}>{node.text}</div>
+          <div style={{ fontSize: 14, color: 'var(--text-primary)', lineHeight: 1.5, marginBottom: 8 }}>{node.text}</div>
 
           {/* Badge */}
           {badge && isOwner && (
-            <div style={{ fontSize: 11, color: status === 'rejected' ? '#dc2626' : '#6b7280', background: status === 'rejected' ? '#fef2f2' : '#f9fafb', padding: '4px 8px', borderRadius: 4, display: 'inline-block', marginBottom: 8 }}>{badge}</div>
+            <div style={{ fontSize: 11, color: status === 'rejected' ? '#dc2626' : 'var(--text-secondary)', background: status === 'rejected' ? '#fef2f2' : 'var(--bg-secondary)', padding: '4px 8px', borderRadius: 4, display: 'inline-block', marginBottom: 8 }}>{badge}</div>
           )}
 
           {/* Reply button */}
-          <button style={{ background: 'transparent', border: 'none', color: '#6b7280', cursor: 'pointer', fontSize: 12, padding: 0 }}
+          <button style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: 12, padding: 0 }}
             onClick={() => { setReplyTarget(node.id); setReplyText(''); }}>Reply</button>
 
           {/* Reply form */}
@@ -215,7 +216,7 @@ export default function ThesisDetail({ thesisId, user }) {
               <textarea value={replyText} onChange={(e) => setReplyText(e.target.value)} rows={2} placeholder="Write a reply..."
                 style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid var(--color-border)', fontSize: 13, resize: 'none', background: 'var(--bg-primary)', color: 'var(--text-primary)' }} autoFocus />
               <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 8, gap: 8 }}>
-                <button style={{ background: '#e5e7eb', color: '#374151', border: 'none', borderRadius: 4, padding: '6px 12px', fontSize: 12, cursor: 'pointer' }}
+                <button style={{ background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--color-border)', borderRadius: 4, padding: '6px 12px', fontSize: 12, cursor: 'pointer' }}
                   onClick={() => { setReplyTarget(null); setReplyText(''); }}>Cancel</button>
                 <button style={{ background: posting || !replyText.trim() ? '#9ca3af' : '#6366f1', color: '#fff', border: 'none', borderRadius: 4, padding: '6px 12px', fontSize: 12, cursor: posting || !replyText.trim() ? 'not-allowed' : 'pointer' }}
                   disabled={posting || !replyText.trim()}
@@ -226,7 +227,6 @@ export default function ThesisDetail({ thesisId, user }) {
                       setReplyText(''); setReplyTarget(null);
                       const list = await getComments(thesisId);
                       setComments(Array.isArray(list) ? list : []);
-                      if (Number(user?.role_id) === 1) { alert('Your reply has been submitted and is pending approval.'); }
                     } catch (e) { setCError(e.message || 'Failed to add reply'); } finally { setPosting(false); }
                   }}>Reply</button>
               </div>
@@ -236,7 +236,7 @@ export default function ThesisDetail({ thesisId, user }) {
 
         {/* Nested replies - simple gray line */}
         {Array.isArray(node.children) && node.children.length > 0 && (
-          <div style={{ marginLeft: 16, borderLeft: '2px solid #e5e7eb', paddingLeft: 8 }}>
+          <div style={{ marginLeft: 16, borderLeft: '2px solid var(--color-border)', paddingLeft: 8 }}>
             {node.children.map((child) => renderCommentNode(child, depth + 1))}
           </div>
         )}
@@ -249,36 +249,34 @@ export default function ThesisDetail({ thesisId, user }) {
 
   return (
     <section className="thesis-detail">
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-        <h2 className="thesis-detail__title" style={{ margin: 0, flex: '1 1 auto' }}>{thesis.title}</h2>
-        {openSections.overview && canEdit && (
-          <button
-            className="home-upload"
-            onClick={() => setEditing((v) => !v)}
-          >{editing ? 'Cancel' : 'Edit'}</button>
-        )}
-        {openSections.overview && (canAdmin || canAdvisorOwner) && (
-          <button
-            style={{
-              background: '#ef4444',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '8px 14px',
-              cursor: 'pointer',
-              fontWeight: 600,
-              fontSize: '14px'
-            }}
-            onClick={async () => {
-              if (!window.confirm('Delete this thesis? This cannot be undone.')) return;
-              try {
-                await deleteThesis(thesis.id);
-                navigate('/theses');
-              } catch (_) { }
-            }}
-          >Delete</button>
-        )}
-      </div>
+      {/* Edit ve Delete butonları - başlığın üstünde */}
+      {openSections.overview && (canEdit || canAdmin || canAdvisorOwner) && (
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginBottom: 12 }}>
+          {canEdit && (
+            <button
+              className="home-upload"
+              onClick={() => setEditing((v) => !v)}
+            >{editing ? 'Cancel' : 'Edit'}</button>
+          )}
+          {(canAdmin || canAdvisorOwner) && (
+            <button
+              style={{
+                background: '#ef4444',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '8px 14px',
+                cursor: 'pointer',
+                fontWeight: 600,
+                fontSize: '14px'
+              }}
+              onClick={() => setShowDeleteConfirm(true)}
+            >Delete</button>
+          )}
+        </div>
+      )}
+
+      <h2 className="thesis-detail__title" style={{ margin: '0 0 16px 0' }}>{thesis.title}</h2>
 
       {/* Analytics Accordion */}
       <div className="thesis-accordion">
@@ -482,70 +480,75 @@ export default function ThesisDetail({ thesisId, user }) {
             )}
 
             <div className="thesis-detail__meta--plain">
-              <table style={{
+              <div className="thesis-detail-meta" style={{
                 width: '100%',
-                borderCollapse: 'collapse',
                 fontSize: '14px',
                 color: 'var(--text-primary)'
               }}>
-                <tbody>
-                  <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
-                    <td style={{ padding: '8px 12px', fontWeight: '600', width: '120px', verticalAlign: 'top' }}>Author:</td>
-                    <td style={{ padding: '8px 12px' }}>{thesis.author_name || '-'}</td>
-                    <td style={{ padding: '8px 12px', fontWeight: '600', width: '120px', verticalAlign: 'top' }}>Faculty:</td>
-                    <td style={{ padding: '8px 12px' }}>{thesis.faculty_name || '-'}</td>
-                  </tr>
-                  <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
-                    <td style={{ padding: '8px 12px', fontWeight: '600', verticalAlign: 'top' }}>Advisor:</td>
-                    <td style={{ padding: '8px 12px' }}>{thesis.advisor_name || '-'}</td>
-                    <td style={{ padding: '8px 12px', fontWeight: '600', verticalAlign: 'top' }}>Department:</td>
-                    <td style={{ padding: '8px 12px' }}>{thesis.department_name || '-'}</td>
-                  </tr>
-                  <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
-                    <td style={{ padding: '8px 12px', fontWeight: '600', verticalAlign: 'top' }}>Year:</td>
-                    <td style={{ padding: '8px 12px' }}>{thesis.publication_year || '-'}</td>
-                    <td style={{ padding: '8px 12px', fontWeight: '600', verticalAlign: 'top' }}>Views:</td>
-                    <td style={{ padding: '8px 12px' }}>{thesis.view_count ?? 0}</td>
-                  </tr>
-                  <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
-                    <td style={{ padding: '8px 12px', fontWeight: '600', verticalAlign: 'top' }}>Downloads:</td>
-                    <td style={{ padding: '8px 12px' }}>{thesis.download_count ?? 0}</td>
-                    {thesis.keywords ? (
-                      <>
-                        <td style={{ padding: '8px 12px', fontWeight: '600', verticalAlign: 'top' }}>Keywords:</td>
-                        <td style={{ padding: '8px 12px' }}>{thesis.keywords}</td>
-                      </>
-                    ) : (
-                      <td colSpan="2"></td>
-                    )}
-                  </tr>
-                  <tr>
-                    <td style={{ padding: '8px 12px', fontWeight: '600', verticalAlign: 'middle' }}>Cited by:</td>
-                    <td style={{ padding: '8px 12px', verticalAlign: 'middle' }}>{thesis.bibliography_count ?? 0}</td>
-                    <td colSpan="2" style={{ padding: '8px 12px', textAlign: 'right', verticalAlign: 'middle' }}>
-                      <button
-                        onClick={async () => {
-                          setShowCitePopup(true);
-                          try {
-                            const result = await citeThesis(thesisId);
-                            setThesis(t => t ? { ...t, bibliography_count: result.bibliography_count } : t);
-                          } catch (e) { }
-                        }}
-                        style={{
-                          background: '#3b82f6',
-                          color: '#fff',
-                          border: 'none',
-                          borderRadius: '6px',
-                          padding: '6px 14px',
-                          cursor: 'pointer',
-                          fontWeight: 600,
-                          fontSize: '13px'
-                        }}
-                      >Cite</button>
+                {/* Desktop: Table layout */}
+                <table className="thesis-meta-table-desktop" style={{
+                  width: '100%',
+                  borderCollapse: 'collapse'
+                }}>
+                  <tbody>
+                    <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
+                      <td style={{ padding: '8px 12px', fontWeight: '600', width: '120px', verticalAlign: 'top' }}>Author:</td>
+                      <td style={{ padding: '8px 12px' }}>{thesis.author_name || '-'}</td>
+                      <td style={{ padding: '8px 12px', fontWeight: '600', width: '120px', verticalAlign: 'top' }}>Faculty:</td>
+                      <td style={{ padding: '8px 12px' }}>{thesis.faculty_name || '-'}</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
+                      <td style={{ padding: '8px 12px', fontWeight: '600', verticalAlign: 'top' }}>Advisor:</td>
+                      <td style={{ padding: '8px 12px' }}>{thesis.advisor_name || '-'}</td>
+                      <td style={{ padding: '8px 12px', fontWeight: '600', verticalAlign: 'top' }}>Department:</td>
+                      <td style={{ padding: '8px 12px' }}>{thesis.department_name || '-'}</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
+                      <td style={{ padding: '8px 12px', fontWeight: '600', verticalAlign: 'top' }}>Year:</td>
+                      <td style={{ padding: '8px 12px' }}>{thesis.publication_year || '-'}</td>
+                      <td style={{ padding: '8px 12px', fontWeight: '600', verticalAlign: 'top' }}>Views:</td>
+                      <td style={{ padding: '8px 12px' }}>{thesis.view_count ?? 0}</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
+                      <td style={{ padding: '8px 12px', fontWeight: '600', verticalAlign: 'top' }}>Downloads:</td>
+                      <td style={{ padding: '8px 12px' }}>{thesis.download_count ?? 0}</td>
+                      {thesis.keywords ? (
+                        <>
+                          <td style={{ padding: '8px 12px', fontWeight: '600', verticalAlign: 'top' }}>Keywords:</td>
+                          <td style={{ padding: '8px 12px' }}>{thesis.keywords}</td>
+                        </>
+                      ) : (
+                        <td colSpan="2"></td>
+                      )}
+                    </tr>
+                    <tr>
+                      <td style={{ padding: '8px 12px', fontWeight: '600', verticalAlign: 'middle' }}>Cited by:</td>
+                      <td style={{ padding: '8px 12px', verticalAlign: 'middle' }}>{thesis.bibliography_count ?? 0}</td>
+                      <td colSpan="2" style={{ padding: '8px 12px', textAlign: 'right', verticalAlign: 'middle' }}>
+                        <button
+                          onClick={async () => {
+                            setShowCitePopup(true);
+                            try {
+                              const result = await citeThesis(thesisId);
+                              setThesis(t => t ? { ...t, bibliography_count: result.bibliography_count } : t);
+                            } catch (e) { }
+                          }}
+                          style={{
+                            background: '#3b82f6',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: '6px',
+                            padding: '6px 14px',
+                            cursor: 'pointer',
+                            fontWeight: 600,
+                            fontSize: '13px'
+                          }}
+                        >Cite</button>
                     </td>
                   </tr>
                 </tbody>
               </table>
+            </div>
             </div>
 
             {files.find(ff => String(ff.file_type || '').includes('pdf')) && (
@@ -614,9 +617,6 @@ export default function ThesisDetail({ thesisId, user }) {
                           setText('');
                           const list = await getComments(thesisId);
                           setComments(Array.isArray(list) ? list : []);
-                          if (Number(user?.role_id) === 1) {
-                            alert('Your comment has been submitted and is pending approval.');
-                          }
                         } catch (e) {
                           setCError(e.message || 'Failed to add comment');
                         } finally { setPosting(false); }
@@ -757,6 +757,85 @@ VO Master's Thesis`}
               </div>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Popup */}
+      {showDeleteConfirm && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: 'var(--bg-primary)',
+            border: '1px solid var(--color-border)',
+            borderRadius: '12px',
+            padding: '24px',
+            maxWidth: '400px',
+            width: '90%',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)'
+          }}>
+            <h3 style={{
+              margin: '0 0 16px 0',
+              color: 'var(--text-primary)',
+              fontSize: '18px',
+              fontWeight: '600'
+            }}>Delete Thesis</h3>
+            <p style={{
+              margin: '0 0 24px 0',
+              color: 'var(--text-secondary)',
+              fontSize: '14px',
+              lineHeight: '1.5'
+            }}>
+              Are you sure you want to delete this thesis? This action cannot be undone.
+            </p>
+            <div style={{
+              display: 'flex',
+              gap: '12px',
+              justifyContent: 'flex-end'
+            }}>
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                style={{
+                  padding: '10px 20px',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: '8px',
+                  backgroundColor: 'var(--bg-primary)',
+                  color: 'var(--text-primary)',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '500'
+                }}
+              >Cancel</button>
+              <button
+                onClick={async () => {
+                  try {
+                    await deleteThesis(thesis.id);
+                    setShowDeleteConfirm(false);
+                    navigate('/theses');
+                  } catch (_) { }
+                }}
+                style={{
+                  padding: '10px 20px',
+                  border: 'none',
+                  borderRadius: '8px',
+                  backgroundColor: '#ef4444',
+                  color: '#ffffff',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '600'
+                }}
+              >Delete</button>
+            </div>
           </div>
         </div>
       )}

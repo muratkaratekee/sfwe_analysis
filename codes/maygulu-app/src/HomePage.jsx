@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { BookOpen, Search, BarChart3, ChevronDown } from 'lucide-react';
 import './pages/dashboard/home.css';
 import './pages/dashboard/animations.css';
+import ThemeToggle from './components/ThemeToggle';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -27,28 +28,35 @@ export default function HomePage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--color-bg)', color: 'var(--color-text)', paddingTop: '120px' }}>
-      {/* Sign In / Login Button - Sabit pozisyon */}
-      <button
-        onClick={() => navigate('/login')}
-        style={{
-          position: 'fixed',
-          top: '20px',
-          right: '20px',
-          padding: '10px 24px',
-          background: 'var(--color-primary)',
-          color: '#fff',
-          border: 'none',
-          borderRadius: 8,
-          fontSize: 14,
-          fontWeight: 600,
-          cursor: 'pointer',
-          zIndex: 1000,
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
-        }}
-      >
-        Sign In / Login
-      </button>
+    <div style={{ minHeight: '100vh', background: 'var(--color-bg)', color: 'var(--color-text)', paddingTop: '20px' }}>
+      {/* Üst bar - Sign In ve Theme Toggle */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        gap: '12px',
+        padding: '0 20px',
+        marginBottom: '20px'
+      }}>
+        <ThemeToggle />
+        <button
+          className="home-login-btn"
+          onClick={() => navigate('/login')}
+          style={{
+            padding: '10px 24px',
+            background: 'var(--color-primary)',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 8,
+            fontSize: 14,
+            fontWeight: 600,
+            cursor: 'pointer',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
+          }}
+        >
+          Sign In / Login
+        </button>
+      </div>
 
       {/* Intro Section - Thesis Archive System box solda, 3 dikey box sağda */}
       <section className="home-intro" style={{ padding: '20px' }}>
@@ -60,7 +68,7 @@ export default function HomePage() {
           alignItems: 'stretch',
           minHeight: '480px',
           gap: '30px'
-        }}>
+        }} id="welcome-container">
           {/* Final International University - Solda */}
           <div style={{
             flex: '1',
@@ -201,15 +209,15 @@ export default function HomePage() {
       </div>
 
       {/* Welcome Section - Yatay, tam genişlik */}
-      <section style={{
+      <section className="welcome-section" style={{
         padding: '60px 20px 40px 20px',
         maxWidth: '1200px',
         margin: '0 auto'
       }}>
-        <div style={{
+        <div className="welcome-section-inner" style={{
           padding: '40px'
         }}>
-          <h2 style={{
+          <h2 className="welcome-section-title" style={{
             color: 'var(--text-primary)',
             fontSize: '1.6rem',
             marginBottom: '1.2rem',
@@ -232,7 +240,7 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <div style={{
+      <div className="feature-cards-grid" style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(3, 1fr)',
         gap: 20,
@@ -296,7 +304,7 @@ export default function HomePage() {
         flexDirection: 'column',
         marginTop: '200px'
       }}>
-        <div style={{
+        <div className="footer-grid" style={{
           padding: '24px 60px',
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',

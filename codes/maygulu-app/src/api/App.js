@@ -10,7 +10,6 @@ import ThesisPage from '../pages/thesis/ThesisPage.jsx';
 import UsersPage from '../pages/Admin/UsersPage.jsx';
 import CatalogPage from '../pages/Admin/faculty_departments.jsx';
 import MyTheses from '../pages/mytheses/MyTheses.jsx';
-import ThemeToggle from '../components/ThemeToggle';
 
 function getInitialUser() {
   try {
@@ -53,9 +52,6 @@ function App() {
 
   return (
     <div className="app-shell">
-      <div className="theme-toggle-fab">
-        <ThemeToggle />
-      </div>
       <BrowserRouter>
         <div className="app-content">
           <Routes>

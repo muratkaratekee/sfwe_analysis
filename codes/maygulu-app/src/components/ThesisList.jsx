@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Users, User, Calendar, Eye, Download, Quote, GraduationCap, Cpu, Stethoscope, Scale, Building2, Leaf, FlaskConical, Palette, BriefcaseBusiness } from 'lucide-react';
+import { Star, Users, User, Eye, Download, Quote, GraduationCap, Cpu, Stethoscope, Scale, Building2, Leaf, FlaskConical, Palette, BriefcaseBusiness } from 'lucide-react';
 import { getFavorites, addFavorite, removeFavorite } from '../api/favorites';
-
-function formatDate(d) {
-  try {
-    if (!d) return '';
-    const dt = new Date(d);
-    if (Number.isNaN(dt.getTime())) return String(d);
-    return dt.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-  } catch (_) { return String(d || ''); }
-}
 
 function truncateText(v, maxLen) {
   const s = String(v ?? '');
@@ -83,10 +74,6 @@ function ThesisCardInline({ item, isFavorited, onToggleFavorite }) {
           </span>
         </div>
         <div className="thesis-card__meta-right">
-          <span className="thesis-card__meta-item" title="Year" aria-label={`Year: ${item?.publication_year || '-'}`}>
-            <Calendar size={14} className="thesis-card__meta-icon" />
-            <strong>{item?.publication_year || '-'}</strong>
-          </span>
           <span className="thesis-card__meta-item" title="Views" aria-label={`Views: ${item?.view_count ?? 0}`}>
             <Eye size={14} className="thesis-card__meta-icon" />
             <strong>{item?.view_count ?? 0}</strong>
@@ -141,10 +128,6 @@ function ThesisCardGrid({ item, isFavorited, onToggleFavorite }) {
         <span className="thesis-card__meta-item" title="Author" aria-label={`Author: ${item?.author_name || '-'}`}>
           <User size={14} className="thesis-card__meta-icon" />
           <strong>{item?.author_name || '-'}</strong>
-        </span>
-        <span className="thesis-card__meta-item" title="Date" aria-label={`Date: ${formatDate(item?.created_at)}`}>
-          <Calendar size={14} className="thesis-card__meta-icon" />
-          <strong>{formatDate(item?.created_at)}</strong>
         </span>
       </div>
     </Link>

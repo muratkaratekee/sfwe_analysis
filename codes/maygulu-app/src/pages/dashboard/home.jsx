@@ -157,6 +157,7 @@ export default function DashboardPage({ user, onLogout }) {
               }}
             >
               <div
+                className="admin-stats-grid"
                 style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(3, 1fr)',
@@ -322,6 +323,7 @@ export default function DashboardPage({ user, onLogout }) {
                 Advisor Dashboard
               </h2>
               <div
+                className="advisor-stats-grid"
                 style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(2, 1fr)',
@@ -391,7 +393,7 @@ export default function DashboardPage({ user, onLogout }) {
         flexDirection: 'column',
         marginTop: '500px'
       }}>
-        <div style={{
+        <div className="footer-grid" style={{
           padding: '24px 60px',
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
